@@ -9,17 +9,26 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Index
+      component: Index,
+      meta: {
+        title: "首页"
+      }
     },
     {
       path: "/login",
       name: "Login",
-      component: Login
+      component: Login,
+      meta: {
+        title: "用户登录"
+      }
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFount",
-      component: NotFount
+      component: NotFount,
+      meta: {
+        title: "页面丢失"
+      }
     }
   ]
 })

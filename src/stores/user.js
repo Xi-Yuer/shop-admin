@@ -1,33 +1,52 @@
-import { defineStore } from 'pinia'
-import { ElMessage } from 'element-plus'
-import { login, getUserInfo } from '@/service/api/manager'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { defineStore } from 'pinia'
+
+import { login, getUserInfo, logout } from '@/service/api/manager'
+import { success, messageBox } from '@/utils/message'
+import Token from '@/utils/cache'
 
 
 export const useUserStore = defineStore("user", () => {
-    const router = useRouter()
-    const cookie = useCookies()
+    // 用户信息
     const userInfo = ref({})
 
     // 用户登录
-    async function loginAction(name, password) {
+    async function loginAction(name, password, Fn) {
         const LoginResult = await login(name, password)
         if (!LoginResult.data) return
-        ElMessage({
-            message: '登录成功',
-            type: 'success',
-        })
-        cookie.set('admin-token', LoginResult.data.token)
 
-        // 获取用户信息
-        const UserInfoResult = await getUserInfo()
-        userInfo.value = UserInfoResult.data
-        router.push('/')
+        Token.set(LoginResult.data.token)
+        await getUserInfoAction()
+        Fn()
+        success("登录成功")
+    }
+
+    // 获取用户信息
+    async function getUserInfoAction() {
+        const token = Token.get()
+        if (token) {
+            const UserInfoResult = await getUserInfo()
+            userInfo.value = UserInfoResult.data
+        }
+    }
+    // 退出登录
+    function logoutAction(Fn) {
+        messageBox("是否确定退出").then(async () => {
+            const result = await logout()
+            // 移除token
+            Token.remove()
+            // 路由返回
+            Fn()
+            // 消息提示
+            success(result.data)
+            // 清空store
+            userInfo.value = {}
+        })
     }
     return {
         userInfo,
-        loginAction
+        loginAction,
+        getUserInfoAction,
+        logoutAction
     }
 })

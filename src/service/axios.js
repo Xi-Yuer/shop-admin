@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
-import { useCookies } from '@vueuse/integrations/useCookies'
-const cookie = useCookies()
+import { err } from '@/utils/message'
+import Token from '@/utils/cache'
 
 const BASE_URL = "/api"
 
@@ -12,22 +11,22 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     config => {
-        const token = cookie.get("admin-token")
+        const token = Token.get()
         if (token) {
             config.headers["token"] = token
         }
         return config
     },
-    err => {
-        ElMessage.error('请求失败,请检查网络')
-        return err
+    error => {
+        err('请求失败,请检查网络')
+        return error
     }
 )
 instance.interceptors.response.use(
     data => data.data,
-    err => {
-        ElMessage.error(err.response.data.msg || "请求失败")
-        return err
+    error => {
+        err(error.response.data.msg || "请求失败")
+        return error
     }
 )
 export default instance

@@ -1,9 +1,11 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { User, Lock } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
+const router = useRouter()
 
 const form = reactive({
   name: '',
@@ -45,7 +47,8 @@ const onSubmit = async () => {
   formRef.value.validate(async valid => {
     if (!valid) return
     isLoading.value = true
-    await userStore.loginAction(form.name, form.password)
+    const routerFn = () => router.push('/')
+    await userStore.loginAction(form.name, form.password, routerFn)
     isLoading.value = false
   })
 }
@@ -76,6 +79,7 @@ const onSubmit = async () => {
           label-position="right"
           label-width="70px"
           class="el-form"
+          @keyup.enter.native="onSubmit"
         >
           <el-form-item label="用户名" prop="name">
             <el-input v-model="form.name" type="text">

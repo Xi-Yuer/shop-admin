@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import Layout from '../layout/index.vue'
+</script>
 
 <template>
-  <div>首页</div>
+  <Layout />
 </template>
 
 <style scoped lang="less"></style>
