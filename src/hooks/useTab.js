@@ -8,7 +8,7 @@ export const useTab = () => {
     const editableTabsValue = ref()
     const editableTabs = ref([
         {
-            title: "控制面板",
+            title: "主控台",
             name: "/"
         }
     ])
@@ -35,14 +35,14 @@ export const useTab = () => {
         const { title } = to.meta
         const { path } = to
         editableTabsValue.value = to.path
-        const hasTab = editableTabs.value.find(item => item.name === path)
+        const hasTab = editableTabs?.value?.find(item => item.name === path)
         if (hasTab) return
         addTab({ title, name: path })
     })
 
     // 添加tab
     const addTab = targetName => {
-        editableTabs.value.push(
+        editableTabs?.value?.push(
             targetName
         )
         // tabList持久化
@@ -80,7 +80,7 @@ export const useTab = () => {
             case "closeAll":
                 editableTabsValue.value = "/"
                 editableTabs.value = [{
-                    title: "控制面板",
+                    title: "主控台",
                     name: "/"
                 }]
                 break;

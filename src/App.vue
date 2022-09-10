@@ -6,6 +6,6 @@
 
 <style>
 body {
-  background: #fafafa;
+  @apply bg-gray-100;
 }
 </style>

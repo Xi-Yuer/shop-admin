@@ -106,6 +106,7 @@ const handelFoldChange = () => changeFoldAction.value()
 .header {
   @apply flex bg-indigo-500 text-lime-50 fixed top-0 left-0 right-0 items-center;
   height: 64px;
+  z-index: 20;
 }
 .logo {
   width: 250px;
