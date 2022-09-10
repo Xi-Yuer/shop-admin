@@ -1,8 +1,8 @@
 <script setup>
-import { ref, toRefs } from 'vue'
+import { computed, ref, toRefs, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePageAction } from '@/stores/page-action'
-import { useUserStore } from '../../stores/user';
+import { useUserStore } from '../../stores/user'
 
 const router = useRouter()
 const route = useRoute()
@@ -14,7 +14,19 @@ const pageActionStore = usePageAction()
 const { isFold } = toRefs(pageActionStore)
 
 // 默认展开项
-const defaultActive = ref(route.path)
+const defaultActive = ref()
+const path = computed(() => route.path)
+
+watch(
+  path,
+  value => {
+    defaultActive.value = value
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+)
 
 const handleSelect = path => {
   router.push(path)
@@ -30,6 +42,7 @@ const handleSelect = path => {
       :collapse="isFold"
       :collapse-transition="false"
       unique-opened
+      background-color="white"
     >
       <template v-for="(item, index) in userInfo.menus" :key="index">
         <!-- 二级菜单 -->
@@ -68,7 +81,7 @@ const handleSelect = path => {
   width: 250px;
   @apply shadow-md fixed top-[64px] bottom-0 left-0 bg-light-50 overflow-auto transition-all duration-200 overflow-x-hidden overflow-y-auto;
 }
-.menu::-webkit-scrollbar{
+.menu::-webkit-scrollbar {
   display: none;
 }
 .fold {

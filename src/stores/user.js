@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import { login, getUserInfo, logout } from '@/service/api/manager'
@@ -28,8 +28,6 @@ export const useUserStore = defineStore("user", () => {
         if (token) {
             const UserInfoResult = await getUserInfo()
             userInfo.value = UserInfoResult.data
-            // 动态添加路由
-            addRoutes(UserInfoResult.data.menus)
         }
     }
     // 退出登录

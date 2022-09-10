@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'nprogress/nprogress.css'
 import 'virtual:windi.css'
+import 'normalize.css'
 import './router/permission'
 
 import App from './App.vue'
@@ -21,10 +22,3 @@ app.use(pinia).use(router).use(ElementPlus).mount('#app')
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-
-
-// store
-import { useUserStore } from '@/stores/user'
-const { getUserInfoAction } = useUserStore()
-// 初始化用户信息数据
-getUserInfoAction()

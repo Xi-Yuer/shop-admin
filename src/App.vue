@@ -4,4 +4,8 @@
   <router-view />
 </template>
 
-<style scoped></style>
+<style>
+body {
+  background: #fafafa;
+}
+</style>
