@@ -20,7 +20,7 @@ getPageTip().then(res => {
 
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-permission="['getStatistics1,GET']">
       <template v-for="i in 4" :key="i" v-if="!panels.length">
         <el-col :span="6">
           <el-skeleton style="width: 100%" animated loading>
@@ -86,9 +86,9 @@ getPageTip().then(res => {
     <Nav />
     <el-row :gutter="20" class="mt-4">
       <el-col :span="12">
-        <Echarts />
+        <Echarts v-permission="['getStatistics3,GET']" />
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" v-permission="['getStatistics2,GET']">
         <TipCard
           title="店铺及商品提示"
           tip="店铺及商品提示"

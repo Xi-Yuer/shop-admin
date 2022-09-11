@@ -66,6 +66,7 @@ export const useTab = () => {
 
         editableTabsValue.value = activeName
         editableTabs.value = tabs.filter(tab => tab.name !== targetName)
+        cookies.set("tabList", editableTabs)
     }
     // 当tab切换时的事件
     const TabChange = (tab) => {

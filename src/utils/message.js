@@ -4,10 +4,14 @@ export const success = (message = "成功") => {
     ElMessage({
         message: message,
         type: 'success',
+        dangerouslyUseHTMLString: true
     })
 }
 export const err = (err = "失败") => {
-    ElMessage.error(err)
+    ElMessage.error({
+        message: err,
+        dangerouslyUseHTMLString: true
+    })
 }
 
 export const messageBox = (content = '', type = "warning", title = "") => {

@@ -36,6 +36,7 @@ defineProps({
 const confirmHandleChangeInfo = () => emits('confirm')
 // 取消
 const cancelHandle = () => emits('cancel')
+const close = () => emits('cancel')
 </script>
 
 <template>
@@ -45,21 +46,24 @@ const cancelHandle = () => emits('cancel')
     width="500px"
     :close-on-click-modal="closeOnClickModal"
     :destroy-on-close="destroyOnClose"
+    @close="close"
   >
     <slot></slot>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="cancelHandle">
-          {{ cancleText }}
-        </el-button>
-        <el-button
-          type="primary"
-          @click="confirmHandleChangeInfo"
-          :loading="loading"
-        >
-          {{ confirmText }}
-        </el-button>
-      </span>
+      <slot name="footer">
+        <span class="dialog-footer">
+          <el-button @click="cancelHandle">
+            {{ cancleText }}
+          </el-button>
+          <el-button
+            type="primary"
+            @click="confirmHandleChangeInfo"
+            :loading="loading"
+          >
+            {{ confirmText }}
+          </el-button>
+        </span>
+      </slot>
     </template>
   </el-dialog>
 </template>

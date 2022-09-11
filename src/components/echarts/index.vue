@@ -59,6 +59,7 @@ let barEcharts = null
 
 // 挂载
 onMounted(() => {
+  if (barRef.value.clientHeight === 0) return
   barEcharts = echarts.init(barRef.value)
   getData()
 })
