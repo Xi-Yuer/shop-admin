@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import Dialog from '../dialog/index.vue'
-import ImageAside from '@/components/image-aside/index.vue'
-import ImageMain from '@/components/image-main/index.vue'
-import { Plus, UploadFilled } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue'
+import Picture from '../../pages/other/picture/index.vue'
+import DialogChooseImg from '../dialog-choose-img/index.vue'
 
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -12,26 +12,11 @@ const props = defineProps({
 
 const showDialog = ref(false)
 
-const imageAsideRef = ref(null)
-const imageMainRef = ref(null)
 const imageCheckedValue = ref()
-
-const handleCreate = () => {
-  imageAsideRef.value.showModal()
-}
-const handleAsideChange = id => {
-  imageMainRef.value.loadData(id)
-}
-const handleUpload = () => {
-  imageMainRef.value.openUploadFile()
-}
-// 图片选中事件保存图片
-const handleChechedImage = image => {
-  imageCheckedValue.value = image
-}
 
 // 点击提交事件
 const handleConfirm = () => {
+  // 传过来的图片可能会有多张
   const imageURL = imageCheckedValue.value[0]?.url
   emits('update:modelValue', imageURL)
   showDialog.value = false
@@ -52,42 +37,13 @@ const handleConfirm = () => {
       />
     </template>
   </div>
-  <Dialog
+  <!-- 打开图片选择器 -->
+  <DialogChooseImg
+    v-model="imageCheckedValue"
     :isShow="showDialog"
-    width="70%"
-    top="5vh"
     @confirm="handleConfirm"
     @cancel="() => (showDialog = false)"
-  >
-    <el-container class="bg-light-50 rounded" style="height: 70vh">
-      <el-header class="image-header">
-        <el-button
-          size="small"
-          @click="handleCreate"
-          :icon="Plus"
-          type="primary"
-        >
-          新增图片分类
-        </el-button>
-        <el-button
-          size="small"
-          @click="handleUpload"
-          :icon="UploadFilled"
-          type="primary"
-        >
-          上传图片
-        </el-button>
-      </el-header>
-      <el-container>
-        <ImageAside ref="imageAsideRef" @listChange="handleAsideChange" />
-        <ImageMain
-          ref="imageMainRef"
-          @chechedImage="handleChechedImage"
-          :showCheck="true"
-        />
-      </el-container>
-    </el-container>
-  </Dialog>
+  />
 </template>
 
 <style scoped>

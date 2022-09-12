@@ -9,10 +9,14 @@ import { err, success } from '@/utils/message'
 import Dialog from '../dialog/index.vue'
 import UploadFile from '../upload-file/index.vue'
 
-defineProps({
+const props = defineProps({
   showCheck: {
     type: Boolean,
     default: false,
+  },
+  allowPickImages: {
+    type: Boolean,
+    default: true,
   },
 })
 
@@ -65,7 +69,7 @@ const loadData = id => {
 const checkedImage = computed(() => ImageList.value.filter(o => o.checked))
 // 选中图片
 const handleChange = item => {
-  if (item.checked && checkedImage.value.length > 1) {
+  if (!props.allowPickImages && item.checked && checkedImage.value.length > 1) {
     item.checked = false
     err('最多只能选中一张')
     return
