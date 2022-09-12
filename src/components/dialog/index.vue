@@ -5,6 +5,14 @@ defineProps({
     type: String,
     default: '',
   },
+  width: {
+    type: String,
+    default: '500px',
+  },
+  top: {
+    type: String,
+    default: '15vh',
+  },
   isShow: {
     type: Boolean,
     default: false,
@@ -43,7 +51,8 @@ const close = () => emits('cancel')
   <el-dialog
     v-model="isShow"
     :title="title"
-    width="500px"
+    :width="width"
+    :top="top"
     :close-on-click-modal="closeOnClickModal"
     :destroy-on-close="destroyOnClose"
     @close="close"

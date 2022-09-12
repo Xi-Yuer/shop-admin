@@ -27,3 +27,28 @@ export const changeUserInfo = async (data) => {
     const result = await instance.post("/admin/updatepassword", data)
     return result
 }
+
+// 管理员列表
+export const getManagerList = (page = 1, limit = 10, keyword = '') => {
+    return instance.get(`/admin/manager/${page}?limit=${limit}&keyword=${keyword}`)
+}
+
+// 修改管理员状态
+export const changeManagerStaus = (id, status) => {
+    return instance.post(`/admin/manager/${id}/update_status`, {
+        status
+    })
+}
+// 新增管理员
+export const createManager = (data) => {
+    return instance.post(`/admin/manager`, data)
+}
+// 修改管理员
+export const updateManager = (id, data) => {
+    console.log(id)
+    return instance.post(`/admin/manager/${id}`, data)
+}
+// 删除管理员
+export const deleteManager = (id) => {
+    return instance.post(`/admin/manager/${id}/delete`)
+}

@@ -3,13 +3,20 @@ import {
   getImageListById,
   reNameImage,
   deleteImage,
-  uploadFile,
 } from '@/service/api/image.js'
-import axios from 'axios'
-import { reactive, ref } from 'vue'
-import { success } from '../../utils/message'
+import { computed, reactive, ref } from 'vue'
+import { err, success } from '@/utils/message'
 import Dialog from '../dialog/index.vue'
 import UploadFile from '../upload-file/index.vue'
+
+defineProps({
+  showCheck: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emits = defineEmits(['chechedImage'])
 
 // 一共有多少页
 const totalPage = ref(0)
@@ -38,7 +45,10 @@ const getData = page => {
   loading.value = true
   getImageListById(currentId.value, currentPage.value)
     .then(res => {
-      ImageList.value = res.data?.list
+      ImageList.value = res.data?.list.map(o => {
+        o.checked = false
+        return o
+      })
       totalPage.value = res.data?.totalCount
     })
     .finally(() => {
@@ -49,6 +59,18 @@ const loadData = id => {
   currentPage.value = 1
   currentId.value = id
   getData()
+}
+
+// 选中的图片
+const checkedImage = computed(() => ImageList.value.filter(o => o.checked))
+// 选中图片
+const handleChange = item => {
+  if (item.checked && checkedImage.value.length > 1) {
+    item.checked = false
+    err('最多只能选中一张')
+    return
+  }
+  emits('chechedImage', checkedImage.value)
 }
 
 // 重命名图片
@@ -106,6 +128,7 @@ defineExpose({
               shadow="hover"
               class="relative mb-4"
               :body-style="{ padding: 0 }"
+              :class="{ 'border-blue-500': item.checked }"
             >
               <el-image
                 :src="item.url"
@@ -117,6 +140,13 @@ defineExpose({
               ></el-image>
               <div class="image-title">{{ item.name }}</div>
               <div class="flex items-center justify-center p-2">
+                <el-checkbox
+                  v-if="showCheck"
+                  label="选择"
+                  v-model="item.checked"
+                  @change="handleChange(item)"
+                >
+                </el-checkbox>
                 <el-button
                   size="small"
                   type="primary"
