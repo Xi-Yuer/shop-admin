@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import {
   getNotifyList,
   DeleteNotify,
@@ -69,7 +69,12 @@ const {
       </el-tooltip>
     </div>
     <el-table :data="tableData" stripe style="width: 100%" fit>
-      <el-table-column type="index" :index="indexMethod" label="序号" width="80" />
+      <el-table-column
+        type="index"
+        :index="indexMethod"
+        label="序号"
+        width="80"
+      />
       <el-table-column prop="title" label="公告标题" />
       <el-table-column prop="update_time" label="发布时间" width="580" />
       <el-table-column label="操作" width="180" align="center">

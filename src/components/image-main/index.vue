@@ -10,10 +10,12 @@ import Dialog from '../dialog/index.vue'
 import UploadFile from '../upload-file/index.vue'
 
 const props = defineProps({
+  // 是否显示选择图片
   showCheck: {
     type: Boolean,
     default: false,
   },
+  // 是否允许选择多张图片
   allowPickImages: {
     type: Boolean,
     default: true,

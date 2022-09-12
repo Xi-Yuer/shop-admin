@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import Dialog from '../dialog/index.vue'
 import { Plus } from '@element-plus/icons-vue'
-import Picture from '../../pages/other/picture/index.vue'
 import DialogChooseImg from '../dialog-choose-img/index.vue'
 
 const emits = defineEmits(['update:modelValue'])

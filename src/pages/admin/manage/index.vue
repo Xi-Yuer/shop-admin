@@ -239,6 +239,7 @@ const rules = {
           <el-input v-model="newForm.password"></el-input>
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
+          <!-- 选择图片组件 -->
           <ChooseImage v-model="newForm.avatar" />
         </el-form-item>
         <el-form-item label="所属角色" prop="role_id">
