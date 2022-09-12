@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { success } from '@/utils/message'
 export const useTableOperate = ({
+    onGetListSuceess,
     getList,
     changeStatus,
     create,
@@ -34,13 +35,19 @@ export const useTableOperate = ({
         loading.value = true
         getList(currentPage.value, 10, searchForm.keywords)
             .then(res => {
-                const { list, totalCount, roles } = res.data
-                tableData.value = list.map(o => {
-                    o.statusLoading = false
-                    return o
-                })
-                total.value = totalCount
-                roleList.value = roles
+                // 权限管理数据
+                if (onGetListSuceess) {
+                    const { list, rules, totalCount } = res.data
+                    onGetListSuceess(list)
+                } else {
+                    const { list, totalCount, roles } = res.data
+                    tableData.value = list.map(o => {
+                        o.statusLoading = false
+                        return o
+                    })
+                    total.value = totalCount
+                    roleList.value = roles
+                }
             })
             .finally(() => {
                 loading.value = false

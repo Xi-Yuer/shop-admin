@@ -6,8 +6,9 @@ import {
   editNotify,
   createNotify,
 } from '@/service/api/notify.js'
-import Dialog from '../../../components/dialog/index.vue'
-import { useTableOperate } from '../../../hooks/useTableOperate'
+import Dialog from '@/components/dialog/index.vue'
+import { useTableOperate } from '@/hooks/useTableOperate'
+import TableHeader from '@/components/table-header/index.vue'
 
 const rules = {
   title: [
@@ -60,14 +61,11 @@ const {
 
 <template>
   <el-card shadow="never" v-loading="loading">
-    <div class="flex items-center justify-between mb-4">
-      <el-button type="primary" @click="createNotifyAction"> 新增 </el-button>
-      <el-tooltip content="刷新数据">
-        <el-button size="small" text @click="getData(1)">
-          <el-icon :size="20"><Refresh /></el-icon>
-        </el-button>
-      </el-tooltip>
-    </div>
+    <!-- 表格顶部操作区 -->
+    <TableHeader
+      @create="createNotifyAction"
+      @refresh="getData(currentPage.value)"
+    />
     <el-table :data="tableData" stripe style="width: 100%" fit>
       <el-table-column
         type="index"
