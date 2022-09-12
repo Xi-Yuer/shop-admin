@@ -111,12 +111,9 @@ const openUploadFile = () => (isShowUpload.value = true)
 // 取消上传
 const handleCancelUpload = () => (isShowUpload.value = false)
 
-// 确定上传
-const handleUploadFile = () => {}
-
 // 上传成功
 const handleUploadSuccess = () => {
-  success('上传成功')
+  getData(currentPage.value)
 }
 defineExpose({
   loadData,

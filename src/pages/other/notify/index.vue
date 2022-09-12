@@ -75,8 +75,9 @@ const {
         label="序号"
         width="80"
       />
-      <el-table-column prop="title" label="公告标题" />
-      <el-table-column prop="update_time" label="发布时间" width="580" />
+      <el-table-column prop="title" label="公告标题" width="200" />
+      <el-table-column prop="content" label="公告内容" />
+      <el-table-column prop="update_time" label="发布时间" width="280" />
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
           <el-button plain type="primary" size="small" @click="Edit(scope.row)">
