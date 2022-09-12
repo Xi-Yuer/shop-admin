@@ -76,7 +76,6 @@ export const useTab = () => {
 
     // 关闭tab
     const close = type => {
-        console.log(type)
         switch (type) {
             case "closeAll":
                 editableTabsValue.value = "/"

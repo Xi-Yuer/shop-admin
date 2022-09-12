@@ -1,17 +1,39 @@
 <script setup>
+import { reactive } from 'vue'
 import Dialog from '@/components/dialog/index.vue'
 import { Plus } from '@element-plus/icons-vue'
 import ChooseImage from '@/components/choose-image/index.vue'
+import {
+  getManagerList,
+  changeManagerStaus,
+  createManager,
+  updateManager,
+  deleteManager,
+} from '@/service/api/manager.js'
 import { useTableOperate } from '@/hooks/useTableOperate.js'
 
+const newForm = reactive({
+  username: '',
+  password: '',
+  role_id: null,
+  status: 1,
+  avatar: '',
+})
+const editForm = reactive({
+  username: '',
+  password: '',
+  role_id: null,
+  status: 1,
+  avatar: '',
+})
+const searchForm = reactive({
+  keywords: '',
+})
 const {
   roleList,
   Delete,
   total,
   Edit,
-  newForm,
-  editForm,
-  searchForm,
   getData,
   currentPage,
   indexMethod,
@@ -25,8 +47,17 @@ const {
   handleStatusChange,
   showEditModel,
   hideModel,
-  showNewModel
-} = useTableOperate()
+  showNewModel,
+} = useTableOperate({
+  getList: getManagerList,
+  changeStatus: changeManagerStaus,
+  create: createManager,
+  update: updateManager,
+  del: deleteManager,
+  newForm,
+  editForm,
+  searchForm,
+})
 
 const rules = {
   username: [

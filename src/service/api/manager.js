@@ -45,7 +45,6 @@ export const createManager = (data) => {
 }
 // 修改管理员
 export const updateManager = (id, data) => {
-    console.log(id)
     return instance.post(`/admin/manager/${id}`, data)
 }
 // 删除管理员

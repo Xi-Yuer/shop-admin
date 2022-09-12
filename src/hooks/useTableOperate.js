@@ -1,32 +1,17 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { success } from '@/utils/message'
-import {
-    getManagerList,
-    changeManagerStaus,
-    createManager,
-    updateManager,
-    deleteManager,
-} from '@/service/api/manager.js'
-export const useTableOperate = () => {
+export const useTableOperate = ({
+    getList,
+    changeStatus,
+    create,
+    update,
+    del,
+    newForm,
+    editForm,
+    searchForm = {},
+}) => {
 
     const editManagerId = ref(0)
-    const newForm = reactive({
-        username: '',
-        password: '',
-        role_id: null,
-        status: 1,
-        avatar: '',
-    })
-    const editForm = reactive({
-        username: '',
-        password: '',
-        role_id: null,
-        status: 1,
-        avatar: '',
-    })
-    const searchForm = reactive({
-        keywords: '',
-    })
 
     const tableData = ref([])
     const indexMethod = index => (currentPage.value - 1) * 10 + index + 1
@@ -47,7 +32,7 @@ export const useTableOperate = () => {
     // 页面获取数据
     const getData = () => {
         loading.value = true
-        getManagerList(currentPage.value, 10, searchForm.keywords)
+        getList(currentPage.value, 10, searchForm.keywords)
             .then(res => {
                 const { list, totalCount, roles } = res.data
                 tableData.value = list.map(o => {
@@ -71,7 +56,7 @@ export const useTableOperate = () => {
     // 切换用户状态
     const handleStatusChange = (status, row) => {
         row.statusLoading = true
-        changeManagerStaus(row.id, status)
+        changeStatus(row.id, status)
             .then(res => {
                 success('修改状态成功')
                 row.status = status
@@ -87,21 +72,24 @@ export const useTableOperate = () => {
     }
     // 删除管理员
     const Delete = ({ id }) =>
-        deleteManager(id).then(() => getData(currentPage.value))
+        del(id).then(() => getData(currentPage.value))
 
     // 修改管理员
     const Edit = item => {
-        const { username, password, role_id, status, avatar, id } = item
+        const { username, password, role_id, status, avatar, id, title,
+            content, } = item
             ; (editForm.username = username),
                 (editForm.password = password),
                 (editForm.role_id = role_id),
                 (editForm.status = status),
                 (editForm.avatar = avatar),
+                (editForm.title = title),
+                (editForm.content = content),
                 ((editManagerId.value = id), (showEditModel.value = true))
     }
     // 编辑管理员Action
     const handleEditManager = () => {
-        updateManager(editManagerId.value, editForm).then(res => {
+        update(editManagerId.value, editForm).then(res => {
             getData(currentPage.value)
             hideModel()
         })
@@ -110,7 +98,7 @@ export const useTableOperate = () => {
     // 新增管理
     const createNotifyAction = () => (showNewModel.value = true)
     const handleNewNotify = () => {
-        createManager(newForm).then(() => {
+        create(newForm).then(() => {
             getData(currentPage.value)
             hideModel()
         })

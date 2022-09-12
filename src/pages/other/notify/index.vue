@@ -7,31 +7,7 @@ import {
   createNotify,
 } from '@/service/api/notify.js'
 import Dialog from '../../../components/dialog/index.vue'
-
-const tableData = ref([])
-
-const total = ref(0)
-const currentPage = ref(1)
-
-const loading = ref(false)
-// 编辑
-const showEditModel = ref(false)
-// 新增
-const showNewModel = ref(false)
-
-// 表单ref
-const NewFormRef = ref(null)
-const EditFormRef = ref(null)
-
-const newForm = reactive({
-  title: '',
-  content: '',
-})
-const editForm = reactive({
-  title: '',
-  content: '',
-})
-const editNotifyId = ref(0)
+import { useTableOperate } from '../../../hooks/useTableOperate'
 
 const rules = {
   title: [
@@ -47,57 +23,39 @@ const rules = {
     },
   ],
 }
+const newForm = reactive({
+  title: '',
+  content: '',
+})
+const editForm = reactive({
+  title: '',
+  content: '',
+})
 
-// 页面获取数据
-const getData = page => {
-  if (page) {
-    currentPage.value = page
-  }
-  loading.value = true
-  getNotifyList(currentPage.value)
-    .then(res => {
-      const { list, totalCount } = res.data
-      tableData.value = list
-      total.value = totalCount
-    })
-    .finally(() => {
-      loading.value = false
-    })
-}
-getData()
-
-// 隐藏model
-const hideModel = () => {
-  showEditModel.value = false
-  showNewModel.value = false
-}
-// 删除公告
-const Delete = ({ id }) =>
-  DeleteNotify(id).then(() => getData(currentPage.value))
-
-// 修改公告
-const Edit = item => {
-  const { title, content, id } = item
-  editForm.title = title
-  editForm.content = content
-  editNotifyId.value = id
-  showEditModel.value = true
-}
-// 编辑公告
-const handleEditNotify = () => {
-  editNotify(editNotifyId.value, editForm).then(res => {
-    getData(currentPage.value)
-    hideModel()
-  })
-}
-// 新增公告
-const createNotifyAction = () => (showNewModel.value = true)
-const handleNewNotify = () => {
-  createNotify(newForm).then(() => {
-    getData(currentPage.value)
-    hideModel()
-  })
-}
+const {
+  Delete,
+  total,
+  Edit,
+  getData,
+  currentPage,
+  indexMethod,
+  pageChange,
+  handleEditManager,
+  createNotifyAction,
+  handleNewNotify,
+  tableData,
+  loading,
+  showEditModel,
+  hideModel,
+  showNewModel,
+} = useTableOperate({
+  getList: getNotifyList,
+  create: createNotify,
+  update: editNotify,
+  del: DeleteNotify,
+  newForm,
+  editForm,
+})
 </script>
 
 <template>
@@ -111,6 +69,7 @@ const handleNewNotify = () => {
       </el-tooltip>
     </div>
     <el-table :data="tableData" stripe style="width: 100%" fit>
+      <el-table-column type="index" :index="indexMethod" label="序号" width="80" />
       <el-table-column prop="title" label="公告标题" />
       <el-table-column prop="update_time" label="发布时间" width="580" />
       <el-table-column label="操作" width="180" align="center">
@@ -144,14 +103,14 @@ const handleNewNotify = () => {
         :pager-count="5"
         :current-page="currentPage"
         :page-size="10"
-        @current-change="getData"
+        @current-change="pageChange"
       ></el-pagination>
     </div>
     <Dialog
       title="修改公告"
       :isShow="showEditModel"
       @cancel="hideModel"
-      @confirm="handleEditNotify"
+      @confirm="handleEditManager"
     >
       <el-form ref="EditFormRef" :rules="rules" :model="editForm">
         <el-form-item label="公告标题" prop="title">
