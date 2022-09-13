@@ -38,7 +38,7 @@ export const useTableOperate = ({
                 // 权限管理数据
                 if (onGetListSuceess) {
                     const { list, rules, totalCount } = res.data
-                    onGetListSuceess(list)
+                    onGetListSuceess(list, rules)
                 } else {
                     const { list, totalCount, roles } = res.data
                     tableData.value = list.map(o => {
@@ -83,8 +83,9 @@ export const useTableOperate = ({
 
     // 修改管理员
     const Edit = item => {
-        const { username, password, role_id, status, avatar, id, title,
-            content, } = item
+        console.log(item.rule_id)
+        const { username, password, role_id, status, avatar, id, title, rule_id, menu, name, condition, method, order, frontpath, icon,
+            content } = item
             ; (editForm.username = username),
                 (editForm.password = password),
                 (editForm.role_id = role_id),
@@ -92,7 +93,16 @@ export const useTableOperate = ({
                 (editForm.avatar = avatar),
                 (editForm.title = title),
                 (editForm.content = content),
-                ((editManagerId.value = id), (showEditModel.value = true))
+                (editForm.value = id),
+                (editForm.rule_id = rule_id),
+                (editForm.menu = menu),
+                (editForm.name = name),
+                (editForm.condition = condition),
+                (editForm.method = method),
+                (editForm.order = order),
+                (editForm.frontpath = frontpath),
+                ((editForm.icon = icon),
+                    (showEditModel.value = true))
     }
     // 编辑管理员Action
     const handleEditManager = () => {
