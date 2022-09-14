@@ -1,44 +1,43 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 // 单页面
-import LayOut from '@/layout/index.vue'
-import Login from '@/pages/login/index.vue'
-import NotFount from '@/pages/404/index.vue'
+const LayOut = () => import('@/layout/index.vue')
+const Login = () => import('@/pages/login/index.vue')
+const NotFount = () => import('@/pages/404/index.vue')
 
 // 后台面板
-import Center from '@/pages/panel/center/index.vue'
+const Center = () => import('@/pages/panel/center/index.vue')
 
 // 商品管理
-import GoodsManage from '@/pages/goods/manage/index.vue'
-import GoodsClassify from '@/pages/goods/classify/index.vue'
-import GoodsCoupon from '@/pages/goods/coupon/index.vue'
-import GoodsSpecifications from '@/pages/goods/specifications/index.vue'
+const GoodsManage = () => import('@/pages/goods/manage/index.vue')
+const GoodsClassify = () => import('@/pages/goods/classify/index.vue')
+const GoodsCoupon = () => import('@/pages/goods/coupon/index.vue')
+const GoodsSpecifications = () => import('@/pages/goods/specifications/index.vue')
 
 // 用户管理
-import UserList from '@/pages/user/list/index.vue'
-import UserLevel from '@/pages/user/level/index.vue'
+const UserList = () => import('@/pages/user/list/index.vue')
+const UserLevel = () => import('@/pages/user/level/index.vue')
 
 // 订单管理
-import OrderManage from '@/pages/order/manage/index.vue'
-import OrderComment from '@/pages/order/comment/index.vue'
-
+const OrderManage = () => import('@/pages/order/manage/index.vue')
+const OrderComment = () => import('@/pages/order/comment/index.vue')
 // 管理员管理
-import AdminManage from '@/pages/admin/manage/index.vue'
-import AdminPermission from '@/pages/admin/permission/index.vue'
-import AdminRole from '@/pages/admin/role/index.vue'
+const AdminManage = () => import('@/pages/admin/manage/index.vue')
+const AdminPermission = () => import('@/pages/admin/permission/index.vue')
+const AdminRole = () => import('@/pages/admin/role/index.vue')
 
 // 系统设置
-import SystemBase from '@/pages/system/base/index.vue'
-import SystemDeal from '@/pages/system/deal/index.vue'
-import SystemLogist from '@/pages/system/logist/index.vue'
+const SystemBase = () => import('@/pages/system/base/index.vue')
+const SystemDeal = () => import('@/pages/system/deal/index.vue')
+const SystemLogist = () => import('@/pages/system/logist/index.vue')
 
 // 分销管理
-import Distributor from '@/pages/distribution/distributor/index.vue'
-import DisSetting from '@/pages/distribution/setting/index.vue'
+const Distributor = () => import('@/pages/distribution/distributor/index.vue')
+const DisSetting = () => import('@/pages/distribution/setting/index.vue')
 
 // 其他
-import OtherPicture from '@/pages/other/picture/index.vue'
-import OtherNotify from '@/pages/other/notify/index.vue'
+const OtherPicture = () => import('@/pages/other/picture/index.vue')
+const OtherNotify = () => import('@/pages/other/notify/index.vue')
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),

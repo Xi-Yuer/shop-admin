@@ -12,8 +12,6 @@ export const useTableOperate = ({
     searchForm = {},
 }) => {
 
-    const editManagerId = ref(0)
-
     const tableData = ref([])
     const indexMethod = index => (currentPage.value - 1) * 10 + index + 1
     const roleList = ref([])
@@ -83,8 +81,7 @@ export const useTableOperate = ({
 
     // 修改管理员
     const Edit = item => {
-        console.log(item.rule_id)
-        const { username, password, role_id, status, avatar, id, title, rule_id, menu, name, condition, method, order, frontpath, icon,
+        const { username, password, role_id, status, avatar, id, title, rule_id, menu, name, condition, method, order, frontpath, icon, desc,
             content } = item
             ; (editForm.username = username),
                 (editForm.password = password),
@@ -101,12 +98,13 @@ export const useTableOperate = ({
                 (editForm.method = method),
                 (editForm.order = order),
                 (editForm.frontpath = frontpath),
+                (editForm.desc = desc),
                 ((editForm.icon = icon),
                     (showEditModel.value = true))
     }
     // 编辑管理员Action
     const handleEditManager = () => {
-        update(editManagerId.value, editForm).then(res => {
+        update(editForm.value, editForm).then(res => {
             getData(currentPage.value)
             hideModel()
         })

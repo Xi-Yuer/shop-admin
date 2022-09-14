@@ -1,12 +1,14 @@
 <script setup>
 import { reactive } from 'vue'
 import TableHeader from '@/components/table-header/index.vue'
+import IconSelect from '@/components/icon-select/index.vue'
 
 import {
   getMenuPermissionList,
   createPermission,
   updatePermission,
   deletePermission,
+  updatePermissionStatus,
 } from '@/service/api/menu-permission.js'
 import { ref } from 'vue'
 import { useTableOperate } from '../../../hooks/useTableOperate'
@@ -44,6 +46,7 @@ const {
   handleNewNotify,
   Delete,
   handleEditManager,
+  handleStatusChange,
   hideModel,
   showNewModel,
   showEditModel,
@@ -57,6 +60,7 @@ const {
   create: createPermission,
   update: updatePermission,
   del: deletePermission,
+  changeStatus: updatePermissionStatus,
   newForm,
   editForm,
 })
@@ -93,6 +97,7 @@ const defaultExpandedKeys = ref([])
               :modelValue="data.status"
               :active-value="1"
               :inactive-value="0"
+              @change="handleStatusChange($event, data)"
             ></el-switch>
             <el-button
               text
@@ -109,13 +114,16 @@ const defaultExpandedKeys = ref([])
               @click="createNotifyAction(data)"
               >增加</el-button
             >
-            <el-button
-              text
-              type="danger"
-              size="small"
-              @click.stop="Delete(data)"
-              >删除</el-button
+            <el-popconfirm
+              @confirm="Delete(data)"
+              title="是否要删除该记录"
+              confirmButtonText="确认"
+              cancelButtonText="取消"
             >
+              <template #reference>
+                <el-button text type="danger" size="small">删除</el-button>
+              </template>
+            </el-popconfirm>
           </div>
         </div>
       </template>
@@ -255,7 +263,7 @@ const defaultExpandedKeys = ref([])
           ></el-input-number>
         </el-form-item>
         <el-form-item label="图标" prop="icon" v-if="newForm.menu === 1">
-          <el-input v-model="newForm.icon"></el-input>
+          <IconSelect v-model="newForm.icon" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-switch

@@ -12,3 +12,8 @@ export const updatePermission = (id, data) => {
 export const deletePermission = (id) => {
     return instance.post(`/admin/rule/${id}/delete`)
 }
+export const updatePermissionStatus = (id, status) => {
+    return instance.post(`/admin/rule/${id}/update_status`, {
+        status
+    })
+}
