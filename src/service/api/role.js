@@ -17,3 +17,8 @@ export const updateStatus = (id, status) => {
         status
     })
 }
+export const setRoleRule = (id, ids) => {
+    return instance.post("/admin/role/set_rules", {
+        id, ids
+    })
+}

@@ -6,11 +6,13 @@ import {
   editRole,
   createRole,
   updateStatus,
+  setRoleRule,
 } from '@/service/api/role.js'
 import { getMenuPermissionList } from '@/service/api/menu-permission.js'
 import Dialog from '@/components/dialog/index.vue'
 import { useTableOperate } from '@/hooks/useTableOperate'
 import TableHeader from '@/components/table-header/index.vue'
+import { success } from '../../../utils/message'
 
 const rules = {
   name: [
@@ -30,6 +32,8 @@ const rules = {
 const elTreeRef = ref(null)
 const ruleList = ref([])
 const ruleId = ref(0)
+const rulesId = ref([])
+const checkStrictly = ref(false)
 
 // 当前用户拥有的权限id
 const rulesIds = ref([])
@@ -37,6 +41,7 @@ const rulesIds = ref([])
 const showRoleModel = ref(false)
 const setRole = row => {
   ruleId.value = row.id
+  checkStrictly.value = true
   getMenuPermissionList(1).then(res => {
     const { list } = res.data
     ruleList.value = list
@@ -46,9 +51,20 @@ const setRole = row => {
   nextTick(() => {
     elTreeRef.value.setCheckedKeys(rulesIds.value)
   })
+  checkStrictly.value = false
 }
-// 配置权限
-const handleSetRole = () => {}
+// 配置用户权限选中每一项
+const hdandleTreeCheck = (...e) => {
+  const { checkedKeys, halfCheckedKeys } = e[1]
+  rulesId.value = [...checkedKeys, ...halfCheckedKeys]
+}
+// 配置权限action
+const handleSetRole = () => {
+  setRoleRule(ruleId.value, rulesId.value).then(res => {
+    showRoleModel.value = false
+    success('更新成功')
+  })
+}
 
 const newForm = reactive({
   name: '',
@@ -229,8 +245,10 @@ const {
         :data="ruleList"
         ref="elTreeRef"
         node-key="id"
+        :check-strictly="checkStrictly"
         :props="{ label: 'name', children: 'child' }"
         show-checkbox
+        @check="hdandleTreeCheck"
       >
         <template #default="{ node, data }">
           <div class="flex items-center">
