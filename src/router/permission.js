@@ -30,7 +30,7 @@ router.beforeEach(async (to, from, next) => {
         }
         hasNewRoutes = addRoutes(userInfo.value.menus)
     }
-    const title = to.meta?.title || "商城后台"
+    const title = to.meta?.title + " - 商城后台"
     document.title = title
     hasNewRoutes ? next(to.fullPath) : next()
 })

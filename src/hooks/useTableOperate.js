@@ -37,6 +37,7 @@ export const useTableOperate = ({
                 if (onGetListSuceess) {
                     const { list, rules, totalCount } = res.data
                     onGetListSuceess(list, rules)
+                    total.value = totalCount
                 } else {
                     const { list, totalCount, roles } = res.data
                     tableData.value = list.map(o => {
@@ -82,7 +83,14 @@ export const useTableOperate = ({
     // 修改管理员
     const Edit = item => {
         const { username, password, role_id, status, avatar, id, title, rule_id, menu, name, condition, method, order, frontpath, icon, desc,
-            content } = item
+            content,
+            type,
+            value,
+            total,
+            min_price,
+            start_time,
+            end_time,
+        } = item
             ; (editForm.username = username),
                 (editForm.password = password),
                 (editForm.role_id = role_id),
@@ -99,6 +107,14 @@ export const useTableOperate = ({
                 (editForm.order = order),
                 (editForm.frontpath = frontpath),
                 (editForm.desc = desc),
+
+                (editForm.type = type),
+                (editForm.value = value),
+                (editForm.total = total),
+                (editForm.min_price = min_price),
+                (editForm.start_time = start_time),
+                (editForm.end_time = end_time),
+
                 ((editForm.icon = icon),
                     (showEditModel.value = true))
     }
