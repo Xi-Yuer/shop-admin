@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { success } from '@/utils/message'
 export const useTableOperate = ({
     onGetListSuceess,
@@ -26,12 +26,12 @@ export const useTableOperate = ({
     const showNewModel = ref(false)
     // 重置
     const handleRepossess = () => {
-        ; (searchForm.keywords = ''), getData()
+        ; (searchForm.title = '', searchForm.keywords = ''), getData()
     }
     // 页面获取数据
     const getData = () => {
         loading.value = true
-        getList(currentPage.value, 10, searchForm.keywords)
+        getList({ page: currentPage.value, limit: 10, ...searchForm })
             .then(res => {
                 // 权限管理数据
                 if (onGetListSuceess) {

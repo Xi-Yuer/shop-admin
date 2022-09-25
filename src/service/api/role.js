@@ -1,6 +1,6 @@
 import instance from '../axios'
 
-export const getRoleList = (page) => {
+export const getRoleList = ({ page }) => {
     return instance.get(`/admin/role/${page}`)
 }
 export const DeleteRole = (id) => {

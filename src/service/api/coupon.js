@@ -1,6 +1,6 @@
 import instance from '../axios'
 
-export const getCouponList = (page) => {
+export const getCouponList = ({ page }) => {
     return instance.get(`/admin/coupon/${page}`)
 }
 export const deleteCoupon = (id) => {

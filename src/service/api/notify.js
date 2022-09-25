@@ -1,6 +1,6 @@
 import instance from '../axios'
 
-export const getNotifyList = (page) => {
+export const getNotifyList = ({ page }) => {
     return instance.get(`/admin/notice/${page}`)
 }
 export const DeleteNotify = (id) => {

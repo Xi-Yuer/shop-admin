@@ -29,8 +29,8 @@ export const changeUserInfo = async (data) => {
 }
 
 // 管理员列表
-export const getManagerList = (page = 1, limit = 10, keyword = '') => {
-    return instance.get(`/admin/manager/${page}?limit=${limit}&keyword=${keyword}`)
+export const getManagerList = ({ page = 1, limit = 10, keywords = '' }) => {
+    return instance.get(`/admin/manager/${page}?limit=${limit}&keyword=${keywords}`)
 }
 
 // 修改管理员状态
